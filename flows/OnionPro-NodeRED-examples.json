@@ -1,0 +1,768 @@
+[
+    {
+        "id": "f03a0d74.e48df",
+        "type": "tab",
+        "label": "CPU",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "a66e5a5a.13ddc8",
+        "type": "tab",
+        "label": "Send Data to WIoTP",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "f597dff4.72e51",
+        "type": "tab",
+        "label": "GPS Display",
+        "disabled": false
+    },
+    {
+        "id": "e7574721.980848",
+        "type": "tab",
+        "label": "Weather Report"
+    },
+    {
+        "id": "7155f65a.8d8158",
+        "type": "wiotp-credentials",
+        "z": "",
+        "name": "",
+        "org": "5yrusp",
+        "serverName": "",
+        "devType": "OnionOmega2",
+        "devId": "omega2-jw",
+        "keepalive": "60",
+        "cleansession": true,
+        "tls": "",
+        "usetls": false
+    },
+    {
+        "id": "5bb6eb2c.b385c4",
+        "type": "wiotp out",
+        "z": "a66e5a5a.13ddc8",
+        "authType": "d",
+        "qs": "true",
+        "qsDeviceId": "onioniot",
+        "deviceKey": "",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "event",
+        "format": "json",
+        "qos": "",
+        "name": "Watson IoT QuickStart Device",
+        "x": 570,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5b1dc15d.764f",
+        "type": "function",
+        "z": "a66e5a5a.13ddc8",
+        "name": "Random 1-100",
+        "func": "msg.payload = { \"random\": 0};\nmsg.payload.random = Math.round(Math.random()*100);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 280,
+        "y": 120,
+        "wires": [
+            [
+                "b409e713.673af8",
+                "5bb6eb2c.b385c4",
+                "99574e23.47f0a8",
+                "daaf7b35.7694c"
+            ]
+        ]
+    },
+    {
+        "id": "9aed6913.2692d8",
+        "type": "inject",
+        "z": "a66e5a5a.13ddc8",
+        "name": "",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 110,
+        "y": 120,
+        "wires": [
+            [
+                "5b1dc15d.764f"
+            ]
+        ]
+    },
+    {
+        "id": "b409e713.673af8",
+        "type": "debug",
+        "z": "a66e5a5a.13ddc8",
+        "name": "Print Generated Random Num",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.random",
+        "x": 570,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b43a272f.599c6",
+        "type": "exec",
+        "z": "a66e5a5a.13ddc8",
+        "command": "/usr/sbin/oled-exp",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "",
+        "x": 790,
+        "y": 220,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "99574e23.47f0a8",
+        "type": "template",
+        "z": "a66e5a5a.13ddc8",
+        "name": "Write Number to OLED",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "\"-i\" \"write\" \"{{payload.random}}\"",
+        "x": 550,
+        "y": 220,
+        "wires": [
+            [
+                "b43a272f.599c6"
+            ]
+        ]
+    },
+    {
+        "id": "3a887cb5.1d8864",
+        "type": "wiotp out",
+        "z": "a66e5a5a.13ddc8",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "7155f65a.8d8158",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "event",
+        "format": "",
+        "qos": "",
+        "name": "Watson IoT Registered Device",
+        "x": 570,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "179322db.96caad",
+        "type": "inject",
+        "z": "f597dff4.72e51",
+        "name": "",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 110,
+        "y": 80,
+        "wires": [
+            [
+                "52a4dc5a.a9ace4"
+            ]
+        ]
+    },
+    {
+        "id": "52a4dc5a.a9ace4",
+        "type": "exec",
+        "z": "f597dff4.72e51",
+        "command": "/bin/ubus",
+        "addpay": false,
+        "append": "call gps info",
+        "useSpawn": "",
+        "timer": "",
+        "name": "ubus call gps info",
+        "x": 310,
+        "y": 80,
+        "wires": [
+            [
+                "94cff3bf.ca78e"
+            ],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "ce93cce6.ec3938",
+        "type": "debug",
+        "z": "f597dff4.72e51",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 650,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "d76a33df.0defa",
+        "type": "debug",
+        "z": "f597dff4.72e51",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 890,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "94cff3bf.ca78e",
+        "type": "json",
+        "z": "f597dff4.72e51",
+        "name": "",
+        "x": 490,
+        "y": 120,
+        "wires": [
+            [
+                "ce93cce6.ec3938",
+                "cc581b03.f008c8"
+            ]
+        ]
+    },
+    {
+        "id": "cc581b03.f008c8",
+        "type": "function",
+        "z": "f597dff4.72e51",
+        "name": "Check GPS results",
+        "func": "if (typeof msg.payload.latitude == 'undefined') {\n    msg.payload.latitude = \"\";\n}\nif (typeof msg.payload.longitude == 'undefined') {\n    msg.payload.longitude = \"\";\n}\nif (typeof msg.payload.elevation == 'undefined') {\n    msg.payload.elevation = \"\";\n}\nif (typeof msg.payload.course == 'undefined') {\n    msg.payload.course = \"\";\n}\nif (typeof msg.payload.speed == 'undefined') {\n    msg.payload.speed = \"\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 670,
+        "y": 120,
+        "wires": [
+            [
+                "d76a33df.0defa",
+                "546ade39.4f3b8"
+            ]
+        ]
+    },
+    {
+        "id": "546ade39.4f3b8",
+        "type": "template",
+        "z": "f597dff4.72e51",
+        "name": "Generate OLED commands",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "/usr/sbin/oled-exp -i write \"Current GPS Info\"\n/usr/sbin/oled-exp cursor 2,0\n/usr/sbin/oled-exp write \"Latitude  : \"{{payload.latitude}}\n/usr/sbin/oled-exp cursor 3,0\n/usr/sbin/oled-exp write \"Longitude : \"{{payload.longitude}}\n/usr/sbin/oled-exp cursor 4,0\n/usr/sbin/oled-exp write \"Elevation : \"{{payload.elevation}}\n/usr/sbin/oled-exp cursor 5,0\n/usr/sbin/oled-exp write \"Course    : \"{{payload.course}}\n/usr/sbin/oled-exp cursor 6,0\n/usr/sbin/oled-exp write \"Speed     : \"{{payload.speed}}\n",
+        "x": 280,
+        "y": 300,
+        "wires": [
+            [
+                "58a6c8b.4917838",
+                "77c8c414.34d0e4",
+                "d9b64dc5.5ed868",
+                "8a99594e.674e9"
+            ]
+        ]
+    },
+    {
+        "id": "58a6c8b.4917838",
+        "type": "debug",
+        "z": "f597dff4.72e51",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 530,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "920b5e3e.7371a8",
+        "type": "exec",
+        "z": "f597dff4.72e51",
+        "command": "/tmp/write2oled.sh",
+        "addpay": false,
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "oldrc": false,
+        "name": "",
+        "x": 750,
+        "y": 400,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "e49cce97.e0ce7",
+        "type": "wiotp in",
+        "z": "e7574721.980848",
+        "authType": "d",
+        "deviceKey": "7155f65a.8d8158",
+        "deviceType": "",
+        "deviceId": "",
+        "command": "+",
+        "commandType": "g",
+        "qos": 0,
+        "name": "Receive Weather Report from Watson IoT",
+        "x": 220,
+        "y": 80,
+        "wires": [
+            [
+                "f22679d5.059",
+                "609bcd44.78ac6c"
+            ]
+        ]
+    },
+    {
+        "id": "f22679d5.059",
+        "type": "debug",
+        "z": "e7574721.980848",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload.temp",
+        "x": 530,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "609bcd44.78ac6c",
+        "type": "template",
+        "z": "e7574721.980848",
+        "name": "Write Weather Report to OLED",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "\"-i\" \"write\" \"Ridgewood Temp: {{payload.temp}}\"",
+        "x": 570,
+        "y": 80,
+        "wires": [
+            [
+                "8421e839.44c8f8"
+            ]
+        ]
+    },
+    {
+        "id": "8421e839.44c8f8",
+        "type": "exec",
+        "z": "e7574721.980848",
+        "command": "/usr/sbin/oled-exp",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "",
+        "x": 850,
+        "y": 80,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "77c8c414.34d0e4",
+        "type": "file",
+        "z": "f597dff4.72e51",
+        "name": "",
+        "filename": "/tmp/write2oled.sh",
+        "appendNewline": false,
+        "createDir": false,
+        "overwriteFile": "true",
+        "x": 550,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d9b64dc5.5ed868",
+        "type": "delay",
+        "z": "f597dff4.72e51",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 520,
+        "y": 340,
+        "wires": [
+            [
+                "cce543d7.6b3ca8"
+            ]
+        ]
+    },
+    {
+        "id": "8a99594e.674e9",
+        "type": "delay",
+        "z": "f597dff4.72e51",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 520,
+        "y": 380,
+        "wires": [
+            [
+                "920b5e3e.7371a8"
+            ]
+        ]
+    },
+    {
+        "id": "cce543d7.6b3ca8",
+        "type": "exec",
+        "z": "f597dff4.72e51",
+        "command": "chmod 755 /tmp/write2oled.sh",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "",
+        "x": 790,
+        "y": 340,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "9c25bbc2.0956b8",
+        "type": "wiotp out",
+        "z": "f597dff4.72e51",
+        "authType": "d",
+        "qs": "false",
+        "qsDeviceId": "",
+        "deviceKey": "7155f65a.8d8158",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "event",
+        "format": "json",
+        "qos": "",
+        "name": "Watson IoT Registered Device",
+        "x": 890,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "daaf7b35.7694c",
+        "type": "switch",
+        "z": "a66e5a5a.13ddc8",
+        "name": "Set LED based on Number H/M/L",
+        "property": "payload.random",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "66",
+                "vt": "num"
+            },
+            {
+                "t": "btwn",
+                "v": "34",
+                "vt": "num",
+                "v2": "65",
+                "v2t": "num"
+            },
+            {
+                "t": "lte",
+                "v": "33",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 580,
+        "y": 340,
+        "wires": [
+            [
+                "b208578.d955fa8"
+            ],
+            [
+                "a8b669bb.deb55"
+            ],
+            [
+                "d5a2e292.7c485"
+            ]
+        ]
+    },
+    {
+        "id": "1dcf7ade.4a728d",
+        "type": "debug",
+        "z": "a66e5a5a.13ddc8",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 1190,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "ba73575d.2efe58",
+        "type": "exec",
+        "z": "a66e5a5a.13ddc8",
+        "command": "/usr/bin/expled",
+        "addpay": true,
+        "append": "",
+        "useSpawn": "",
+        "timer": "",
+        "name": "",
+        "x": 1200,
+        "y": 300,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "b208578.d955fa8",
+        "type": "change",
+        "z": "a66e5a5a.13ddc8",
+        "name": "Change Omega2 LED to Red",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "990000",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 910,
+        "y": 300,
+        "wires": [
+            [
+                "ba73575d.2efe58",
+                "1dcf7ade.4a728d"
+            ]
+        ]
+    },
+    {
+        "id": "a8b669bb.deb55",
+        "type": "change",
+        "z": "a66e5a5a.13ddc8",
+        "name": "Change Omega2 LED to Yellow",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "993400",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 910,
+        "y": 340,
+        "wires": [
+            [
+                "ba73575d.2efe58",
+                "1dcf7ade.4a728d"
+            ]
+        ]
+    },
+    {
+        "id": "d5a2e292.7c485",
+        "type": "change",
+        "z": "a66e5a5a.13ddc8",
+        "name": "Change Omega2 LED to Green",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "009900",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 910,
+        "y": 380,
+        "wires": [
+            [
+                "ba73575d.2efe58",
+                "1dcf7ade.4a728d"
+            ]
+        ]
+    },
+    {
+        "id": "85b5832d.8cbb3",
+        "type": "inject",
+        "z": "f03a0d74.e48df",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 150,
+        "y": 140,
+        "wires": [
+            [
+                "45acf67.6b27008"
+            ]
+        ]
+    },
+    {
+        "id": "45acf67.6b27008",
+        "type": "cpu",
+        "z": "f03a0d74.e48df",
+        "name": "",
+        "msgCore": true,
+        "msgOverall": false,
+        "msgArray": false,
+        "msgTemp": false,
+        "x": 330,
+        "y": 140,
+        "wires": [
+            [
+                "a6447b43.bfac38",
+                "697a2a18.4e087c"
+            ]
+        ]
+    },
+    {
+        "id": "a6447b43.bfac38",
+        "type": "debug",
+        "z": "f03a0d74.e48df",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 550,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "f522f9c8.98192",
+        "type": "debug",
+        "z": "f03a0d74.e48df",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 550,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "697a2a18.4e087c",
+        "type": "change",
+        "z": "f03a0d74.e48df",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{ topic : payload }",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 330,
+        "y": 260,
+        "wires": [
+            [
+                "f522f9c8.98192",
+                "9091bf0e.cf5f4"
+            ]
+        ]
+    },
+    {
+        "id": "9091bf0e.cf5f4",
+        "type": "wiotp out",
+        "z": "f03a0d74.e48df",
+        "authType": "d",
+        "qs": "true",
+        "qsDeviceId": "onioniot",
+        "deviceKey": "",
+        "deviceType": "",
+        "deviceId": "",
+        "event": "event",
+        "format": "json",
+        "qos": "",
+        "name": "",
+        "x": 530,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "bca7750d.b9cd08",
+        "type": "inject",
+        "z": "f597dff4.72e51",
+        "name": "Sample Data",
+        "topic": "",
+        "payload": "{\"latitude\":40.9793,\"longitude\":-74.1165,\"elevation\":50,\"course\":90,\"speed\":10}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 470,
+        "y": 160,
+        "wires": [
+            [
+                "cc581b03.f008c8"
+            ]
+        ]
+    }
+]
