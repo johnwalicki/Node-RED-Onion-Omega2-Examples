@@ -33,7 +33,7 @@ These Node-RED recipes for the Omega2+ / Omega2 Pro demonstrate:
  ```# node --max_old_space_size=512 $(which npm) -g install  node-red-contrib-cpu```
 - Install **node-red-contrib-ibm-watson-iot**
  ```# node --max_old_space_size=512 $(which npm) -g install node-red-contrib-ibm-watson-iot```
-- Register for a free [IBM Cloud](https://cloud.ibm.com/registration) Lite Account
+- Register for a free [IBM Cloud](https://cloud.ibm.com/registration?cm_mmc=ibmdev-_-omega2-_-gitbhub-_-jwalicki) Lite Account
 - Log into [IBM Cloud](http://cloud.ibm.com)
 - Create a [Internet of Things Platform Starter](https://cloud.ibm.com/catalog/starters/internet-of-things-platform-starter) 
 
