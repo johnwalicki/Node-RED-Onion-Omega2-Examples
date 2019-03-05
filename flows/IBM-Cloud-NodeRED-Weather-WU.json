@@ -1,0 +1,110 @@
+[
+    {
+        "id": "c45fd1de.5a2f88",
+        "type": "inject",
+        "z": "17458c33.f0f044",
+        "name": "Query Weather",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "3600",
+        "crontab": "",
+        "once": true,
+        "x": 140,
+        "y": 460,
+        "wires": [
+            [
+                "7d58ec90.52deec"
+            ]
+        ]
+    },
+    {
+        "id": "33aed2e2.ab3a46",
+        "type": "ibmiot out",
+        "z": "17458c33.f0f044",
+        "authentication": "boundService",
+        "apiKey": "",
+        "outputType": "cmd",
+        "deviceId": "omega2-jw",
+        "deviceType": "OnionOmega2",
+        "eventCommandType": "data",
+        "format": "json",
+        "data": "msg.payload",
+        "qos": 0,
+        "name": "IBM IoT",
+        "service": "registered",
+        "x": 520,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "64fa9301.e7ea1c",
+        "type": "debug",
+        "z": "17458c33.f0f044",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "false",
+        "x": 530,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "daa8e139.443f18",
+        "type": "debug",
+        "z": "17458c33.f0f044",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "complete": "payload.tempf",
+        "x": 550,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "dfb22b.15771dd8",
+        "type": "function",
+        "z": "17458c33.f0f044",
+        "name": "Ridgewood Feels Like temp",
+        "func": "msg.payload = {temp:msg.payload.tempf};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 300,
+        "y": 540,
+        "wires": [
+            [
+                "64fa9301.e7ea1c",
+                "33aed2e2.ab3a46"
+            ]
+        ]
+    },
+    {
+        "id": "d15cea49.f8a2a",
+        "type": "comment",
+        "z": "17458c33.f0f044",
+        "name": "Send Weather Report to Onion Node-RED - Display on OLED",
+        "info": "",
+        "x": 260,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "7d58ec90.52deec",
+        "type": "wunderground",
+        "z": "17458c33.f0f044",
+        "name": "",
+        "lon": "-74.1165313",
+        "lat": "40.9792645",
+        "city": "",
+        "country": "",
+        "x": 340,
+        "y": 460,
+        "wires": [
+            [
+                "daa8e139.443f18",
+                "dfb22b.15771dd8"
+            ]
+        ]
+    }
+]
