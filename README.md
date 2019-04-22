@@ -21,7 +21,7 @@ These Node-RED recipes for the Omega2+ / Omega2 Pro demonstrate:
 
 ### Prerequistes
 
-- [Install Node-RED](https://github.com/OnionIoT/Onion-Docs/blob/master/Omega2/Documentation/Doing-Stuff/node-red.md) on the Omega2 Pro
+- [Install Node-RED](https://github.com/OnionIoT/Onion-Docs/blob/master/Omega2/Documentation/Doing-Stuff/Installing-Software/node-red.md) on the Omega2 Pro
 - Once Node-RED is installed, several additional Node-RED nodes will be necessary. Install the following nodes using the npm command line.
 - To install additional Node packages with Node-RED,  install NPM:
   ```
