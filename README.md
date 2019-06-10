@@ -37,6 +37,22 @@ These Node-RED recipes for the Omega2+ / Omega2 Pro demonstrate:
 - Log into [IBM Cloud](http://cloud.ibm.com)
 - Create a [Internet of Things Platform Starter](https://cloud.ibm.com/catalog/starters/internet-of-things-platform-starter) 
 
+### Omega2+ Prerequistes
+
+- Followed the [directions to create an SD card for the Omega2+ with both a Swap partition and a /root partition](https://github.com/pjobson/onion_omega2p_experiments/blob/master/docs/setting_up_sdcard_for_root_and_swap.md) to extend the available file space.
+- Install and run the Node-RED Install Tool
+```bash
+# opkg install node-red-install-tool
+# node-red-install-tool
+```
+- Install **node-red-contrib-ibm-watson-iot**
+```bash
+# opkg install node-red-contrib-ibm-watson-iot
+```
+- Register for a free [IBM Cloud](https://cloud.ibm.com/registration?cm_mmc=ibmdev-_-omega2-_-gitbhub-_-jwalicki) Lite Account
+- Log into [IBM Cloud](http://cloud.ibm.com)
+- Create a [Internet of Things Platform Starter](https://cloud.ibm.com/catalog/starters/internet-of-things-platform-starter)
+
 
 ## Download
 
